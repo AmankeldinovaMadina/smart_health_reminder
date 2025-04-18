@@ -1,16 +1,38 @@
-# smart_health_reminder
+# Smart Health Reminder
 
-A new Flutter project.
+A Flutter-powered health companion that tracks steps, reminds hydration based on weather, and suggests mindfulness breaks. Built with a scalable architecture using Provider, Firebase, and platform-native integrations.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 🚀 Features
 
-A few resources to get you started if this is your first Flutter project:
+- **Step Tracking**  
+  Real-time step count using device sensors via the `pedometer` package.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- **Hydration Reminders**  
+  Smart notifications based on current weather conditions using OpenWeatherMap API.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **Firebase Authentication**  
+  Secure user sign-up and login.
+
+- **User Preferences**  
+  Saved locally with `shared_preferences` or synced to Firestore for cloud backup.
+
+- **Smart Notifications**  
+  - Background push: `firebase_messaging`  
+  - Local scheduled alerts: `flutter_local_notifications`
+
+- **Mindfulness Nudges**  
+  Suggests breaks based on screen-on time using native method channels.
+
+## 🔧 Setup Instructions
+
+1. **Clone the repo**
+   ```bash
+   git clone https://github.com/AmankeldinovaMadina/smart_health_reminder.git
+   cd smart_health_reminder
+   flutter pub get 
+
+## 📸 App Preview
+
+![Smart Health Reminder Screenshot](assets/auth_preview.png)

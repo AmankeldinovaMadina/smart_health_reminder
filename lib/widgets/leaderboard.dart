@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:smart_health_assistant/screens/leaderboard_page.dart';
+
 
 class Leaderboard extends StatelessWidget {
   const Leaderboard({super.key});
@@ -17,22 +19,32 @@ class Leaderboard extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: const [
-              LeaderboardPodium(name: 'Dias', score: '2,569 QP', position: 2, height: 100),
-              SizedBox(width: 12),
-              LeaderboardPodium(name: 'Madina', score: '2,569 QP', position: 1, height: 140, isWinner: true),
-              SizedBox(width: 12),
-              LeaderboardPodium(name: 'Madi', score: '2,569 QP', position: 3, height: 80),
-            ],
+
+        // Entire preview is a button
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const LeaderboardPage()),
+            );
+          },
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+            decoration: BoxDecoration(
+              color: Color(0xFFF8F8F8),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: const [
+                LeaderboardPodium(name: 'Dias', score: '2,569 QP', position: 2, height: 100),
+                SizedBox(width: 12),
+                LeaderboardPodium(name: 'Madina', score: '2,569 QP', position: 1, height: 140, isWinner: true),
+                SizedBox(width: 12),
+                LeaderboardPodium(name: 'Madi', score: '2,569 QP', position: 3, height: 80),
+              ],
+            ),
           ),
         ),
       ],

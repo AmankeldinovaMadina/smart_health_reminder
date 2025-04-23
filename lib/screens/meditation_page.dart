@@ -298,30 +298,42 @@ class _TimeButton extends StatelessWidget {
 }
 
 
-
-
 class _DayIndicator extends StatelessWidget {
   final String day;
   final bool filled;
 
-  const _DayIndicator({required this.day, this.filled = false});
+  const _DayIndicator({
+    required this.day,
+    this.filled = false,
+  });
 
   @override
   Widget build(BuildContext context) {
+    const Color green = Color(0xFF52C380);
+
     return Column(
       children: [
         Text(
           day,
-          style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
+          style: const TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 12,
+            color: Color(0xFF90A4AE), // soft blue-gray like in image
+          ),
         ),
         const SizedBox(height: 4),
         Container(
-          width: 18,
-          height: 18,
+          width: 34,
+          height: 34,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: filled ? const Color(0xFF66BB6A) : Colors.grey.shade200,
-            border: Border.all(color: Colors.grey.shade400),
+            color: filled ? green : Colors.transparent,
+            border: filled
+                ? null
+                : Border.all(
+                    color: green.withOpacity(0.2),
+                    width: 2,
+                  ),
           ),
         ),
       ],

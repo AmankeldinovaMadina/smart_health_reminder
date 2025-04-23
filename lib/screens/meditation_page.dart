@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 
-class MeditationPage extends StatelessWidget {
+class MeditationPage extends StatefulWidget {
   const MeditationPage({super.key});
+
+  @override
+  State<MeditationPage> createState() => _MeditationPageState();
+}
+
+class _MeditationPageState extends State<MeditationPage> {
+  int selectedTimeIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -33,43 +40,50 @@ class MeditationPage extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        border: Border.all(color: Colors.white),
-                        color: Color(0xFF52C380),
-                      ),
-                      child: const Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text('⭐', style: TextStyle(fontSize: 16)),
-                          SizedBox(width: 4),
-                          Text(
-                            '150 points',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                alignment: Alignment.centerRight,
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    border: Border.all(color: Colors.white),
+                    color: const Color(0xFF52C380),
                   ),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text('⭐', style: TextStyle(fontSize: 16)),
+                      SizedBox(width: 4),
+                      Text(
+                        '150 points',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               const SizedBox(height: 16),
 
               // Target & Completed
               Padding(
-                padding: const EdgeInsets.only(left: 16), 
+                padding: const EdgeInsets.only(left: 16),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      _statusCard(title: 'Target', value: '10 minutes', isTarget: true),
+                      _statusCard(
+                          title: 'Target',
+                          value: '10 minutes',
+                          isTarget: true),
                       const SizedBox(width: 16),
-                      _statusCard(title: '🍃 Completed', value: '6 minutes', isTarget: false),
+                      _statusCard(
+                          title: '🍃 Completed',
+                          value: '6 minutes',
+                          isTarget: false),
                     ],
                   ),
                 ),
@@ -109,24 +123,34 @@ class MeditationPage extends StatelessWidget {
 
               // Time Buttons
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16), 
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: LayoutBuilder(
                   builder: (context, constraints) {
                     double totalWidth = constraints.maxWidth;
                     double spacing = 12;
                     int buttonCount = 3;
-
-                    // Subtract total spacing between buttons
-                    double buttonWidth = (totalWidth - spacing * (buttonCount - 1)) / buttonCount;
+                    double buttonWidth =
+                        (totalWidth - spacing * (buttonCount - 1)) /
+                            buttonCount;
 
                     return Row(
-                      children: [
-                        _TimeButton(label: '1 min', active: true, width: buttonWidth),
-                        SizedBox(width: spacing),
-                        _TimeButton(label: '2 min', width: buttonWidth),
-                        SizedBox(width: spacing),
-                        _TimeButton(label: '3 min', width: buttonWidth),
-                      ],
+                      children: List.generate(3, (i) {
+                        return Padding(
+                          padding: EdgeInsets.only(right: i < 2 ? spacing : 0),
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                selectedTimeIndex = i;
+                              });
+                            },
+                            child: _TimeButton(
+                              label: '${i + 1} min',
+                              active: selectedTimeIndex == i,
+                              width: buttonWidth,
+                            ),
+                          ),
+                        );
+                      }),
                     );
                   },
                 ),
@@ -140,19 +164,19 @@ class MeditationPage extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: 24),
               const Text(
                 '2 - Day Streak! Keep it up',
                 style: TextStyle(
                   color: Colors.white70,
                 ),
               ),
-
-              const SizedBox(height: 24),
+              const SizedBox(height: 8),
 
               // Streak calendar
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
@@ -183,61 +207,56 @@ class MeditationPage extends StatelessWidget {
     );
   }
 
-Widget _statusCard({
-  required String title,
-  required String value,
-  required bool isTarget,
-}) {
-  return IntrinsicWidth(
-    child: Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Title
-          Text(
-            title,
-            style: const TextStyle(
-              fontWeight: FontWeight.w600, // semi-bold
-              fontSize: 12,
-              color: Color(0xFF9CA3AF), // light gray
-            ),
-          ),
-          const SizedBox(height: 6),
-
-          // Value and icon
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                value,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+  Widget _statusCard({
+    required String title,
+    required String value,
+    required bool isTarget,
+  }) {
+    return IntrinsicWidth(
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 12,
+                color: Color(0xFF9CA3AF),
               ),
-              const SizedBox(width: 6),
-              isTarget
-                  ? Image.asset(
-                      'assets/change_icon.png',
-                      width: 16,
-                      height: 16,
-                    )
-                  : const Text('', style: TextStyle(fontSize: 14)),
-            ],
-          ),
-        ],
+            ),
+            const SizedBox(height: 6),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  value,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(width: 6),
+                isTarget
+                    ? Image.asset(
+                        'assets/change_icon.png',
+                        width: 16,
+                        height: 16,
+                      )
+                    : const SizedBox.shrink(),
+              ],
+            ),
+          ],
+        ),
       ),
-    ),
-  );
-}
-
+    );
+  }
 }
 
 class _TimeButton extends StatelessWidget {
@@ -267,7 +286,7 @@ class _TimeButton extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.04),
-              offset: const Offset(1,6), // 👈 move shadow downward
+              offset: const Offset(1, 6),
               blurRadius: 10,
               spreadRadius: 1,
             ),
@@ -297,7 +316,6 @@ class _TimeButton extends StatelessWidget {
   }
 }
 
-
 class _DayIndicator extends StatelessWidget {
   final String day;
   final bool filled;
@@ -318,7 +336,7 @@ class _DayIndicator extends StatelessWidget {
           style: const TextStyle(
             fontWeight: FontWeight.w500,
             fontSize: 12,
-            color: Color(0xFF90A4AE), // soft blue-gray like in image
+            color: Color(0xFF90A4AE),
           ),
         ),
         const SizedBox(height: 4),
